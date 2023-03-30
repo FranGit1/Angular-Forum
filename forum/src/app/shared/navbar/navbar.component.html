@@ -1,0 +1,39 @@
+<nav
+  class="navbar navbar-light navbar-expand-lg p-2"
+  style="background-color: #fdf9f9"
+>
+  <div collapse navbar-collapse>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item navbar-brand" *ngIf="authenticated">
+        Welcome
+        <a
+          style="text-decoration: none"
+          [routerLink]="['profile', user?.username]"
+          >{{ user?.username }}</a
+        >
+        {{ " (" + user?.email + ")  " }}
+      </li>
+      <li
+        class="nav-item btn btn-sm btn-outline-secondary"
+        [ngClass]="getClass('/')"
+        *ngIf="!checkRouteHome()"
+      >
+        <a class="nav-link" [routerLink]="['']">Home</a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link btn btn-sm btn-outline-secondary"
+          (click)="logout()"
+          *ngIf="authenticated"
+          >Logout</a
+        >
+      </li>
+      <li
+        class="nav-item btn btn-sm btn-outline-secondary"
+        *ngIf="!authenticated"
+      >
+        <a class="nav-link" [routerLink]="['login']">Login</a>
+      </li>
+    </ul>
+  </div>
+</nav>

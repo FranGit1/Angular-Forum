@@ -1,0 +1,29 @@
+<p *ngIf="user?.username != name">Login</p>
+<div class="container-fluid">
+  <div class="row" *ngIf="user?.username == name">
+    <div class="col-md-8">
+      Posts by {{ name }} ({{ posts.length }})
+      <div class="container p-2 .bg-light" style="background-color: #fdf9f9">
+        <ng-container *ngFor="let comment of posts; let i = index">
+          <div class="komentar">
+            <span>by {{ comment.userId }} at "{{ comment.timestamp }}"</span>
+            <br />
+            <span>{{ comment.comment }}</span>
+          </div>
+          <br />
+          <br />
+        </ng-container>
+        <br />
+        <button class="btn btn-danger" [routerLink]="['/']">Back</button>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <label>User data:</label> <br /><br />
+      <label>Username: </label> {{ user?.username }} <br />
+      <label>E-mail: </label>
+      {{ user?.email }}<br />
+      <label>Name: </label> {{ user?.name }}
+    </div>
+  </div>
+</div>

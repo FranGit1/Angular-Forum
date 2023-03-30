@@ -1,0 +1,89 @@
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-md-12">
+      Posts ({{ posts.length }}):
+      <div class="container p-2 .bg-light" style="background-color: #fdf9f9">
+        <ng-container *ngFor="let comment of posts; let i = index">
+          <div class="komentar">
+            <span>by {{ comment.userId }} at "{{ comment.timestamp }}"</span>
+            <br />
+            <span *ngIf="!edit">{{ comment.comment }}</span>
+            <span *ngIf="edit && user?.username != comment.userId">{{
+              comment.comment
+            }}</span>
+
+            <textarea
+              *ngIf="edit && authenticated && user?.username == comment.userId"
+              class="form-control"
+              rows="5"
+              [(ngModel)]="comment.comment"
+            ></textarea>
+          </div>
+          <br />
+
+          <button
+            class="btn btn-danger mr-1"
+            *ngIf="authenticated && user?.username == comment.userId"
+            (click)="deletePost(i)"
+          >
+            Obriši
+          </button>
+          <button
+            class="btn btn-warning"
+            *ngIf="authenticated && user?.username == comment.userId && !edit"
+            (click)="startEditing(comment)"
+          >
+            <span>Edit </span>
+          </button>
+          <button
+            class="btn btn-warning"
+            *ngIf="authenticated && user?.username == comment.userId && edit"
+            (click)="doneEditing()"
+          >
+            <span>Done Editing</span>
+          </button>
+
+          <br />
+          <br />
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <button
+        class="btn"
+        (click)="hidden = !hidden; promijeni()"
+        [ngClass]="!hidden ? 'btn btn-success' : 'btn btn-danger'"
+        *ngIf="authenticated"
+      >
+        {{ cancel }}
+      </button>
+      <br />
+      <div *ngIf="hidden">
+        <form [formGroup]="newPostForm" (submit)="addPost()">
+          <fieldset class="form-group">
+            <label>User:</label>
+            <input
+              [readonly]="true"
+              class="form-control"
+              type="text"
+              formControlName="userId"
+            />
+          </fieldset>
+          <fieldset class="form-group">
+            <label>Comment:</label>
+            <textarea class="form-control" formControlName="comment"></textarea>
+          </fieldset>
+
+          <input
+            type="submit"
+            class="btn btn-success"
+            [disabled]="!newPostForm.valid"
+          />
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
